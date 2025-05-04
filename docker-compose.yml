@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # PHPサービス
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: contact-php
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - contact-network
+
+  # Nginxサービス
+  nginx:
+    image: nginx:alpine
+    container_name: contact-nginx
+    restart: unless-stopped
+    ports:
+      - "9000:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - contact-network
+
+  # MySQLサービス
+  mysql:
+    image: mysql:8.4
+    container_name: contact-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: contact
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: secret
+      MYSQL_USER: contact
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - contact-network
+
+  # Node.jsサービス
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    container_name: contact-node
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - contact-network
+
+networks:
+  contact-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local 
