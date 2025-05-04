@@ -1,0 +1,22 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Tailwind CSS 利用ルール
+
+## 適用範囲
+- フロントエンド（Next.js）・バックエンド（Laravel Bladeビュー）の両方でTailwind CSSを利用します。
+
+## セットアップ
+- フロントエンド: `frontend/` ディレクトリで `tailwindcss`, `postcss`, `autoprefixer` をインストールし、`tailwind.config.js` と `postcss.config.js` を配置します。
+- バックエンド: `backend/` ディレクトリで `tailwindcss` をインストールし、`resources/css/app.css` でTailwindをインポート、`vite`や`laravel-mix`でビルドします。
+
+## 運用ルール
+- クラス名はできるだけユーティリティファーストで記述し、カスタムCSSは最小限に抑えます。
+- 共通デザインやカラーパレットは `tailwind.config.js` で管理します。
+- ダークモードは「非対応」とします（prompt.md要件より）。
+
+## 注意事項
+- Tailwindのバージョンはプロジェクトで統一してください。
+- カスタムコンポーネントやBlade/JSXでのクラス名の重複・競合に注意してください。
