@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# プロジェクト構成ガイド
+
+## バックエンド（Laravel）
+- 主要なエントリーポイントは [routes/web.php](mdc:backend/routes/web.php) です。
+- 管理画面のルートは `/admin` プレフィックスでグループ化されています。
+- 各管理機能は以下のコントローラーで管理されます：
+  - 認証: [AuthController.php](mdc:backend/app/Http/Controllers/Admin/AuthController.php)
+  - 顧客管理: [CustomerController.php](mdc:backend/app/Http/Controllers/Admin/CustomerController.php)
+  - PDF管理: [PdfController.php](mdc:backend/app/Http/Controllers/Admin/PdfController.php)
+  - ビューリンク管理: [ViewLinkController.php](mdc:backend/app/Http/Controllers/Admin/ViewLinkController.php)
+  - 予約管理: [ReservationController.php](mdc:backend/app/Http/Controllers/Admin/ReservationController.php)
+- 各コントローラーは `resources/views/admin/` 配下のBladeテンプレートと対応しています。
+
+## 画面設計
+- レイアウト共通部品は [layouts/app.blade.php](mdc:backend/resources/views/admin/layouts/app.blade.php) で管理されます。
+- 各機能ごとに `index`, `create`, `show`, `edit` などのページが用意されています。
+- 例: 顧客詳細は [customers/show.blade.php](mdc:backend/resources/views/admin/customers/show.blade.php)、PDF詳細は [pdfs/show.blade.php](mdc:backend/resources/views/admin/pdfs/show.blade.php) です。
+- ビューリンクの詳細ページは [view-links/show.blade.php](mdc:backend/resources/views/admin/view-links/show.blade.php) です。
+
+## モデルとリレーション
+- 各コントローラーはEloquentモデル（例: `Customer`, `Pdf`, `ViewLink`, `Reservation`）と連携しています。
+- モデル間のリレーションを活用し、詳細画面で関連情報（例: 顧客のビューリンク一覧、PDFの予約一覧など）を表示します。
+
+## 注意事項
+- コントローラーやビューの追加・修正時は、対応するルートやBladeファイルのパスに注意してください。
+- 認証や権限管理は `auth`/`guest` ミドルウェアで制御されています。

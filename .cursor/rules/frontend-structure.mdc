@@ -1,0 +1,39 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# フロントエンド構成ガイド
+
+## 技術スタック
+- フレームワーク: Next.js（React）
+- 状態管理: React Query（@tanstack/react-query）
+- HTTPクライアント: axios
+- PDF表示: react-pdf, pdf-lib
+
+## ディレクトリ構成
+- 主要なエントリーポイントは `frontend/src/pages/` 配下のファイルです。
+- APIクライアントは [lib/api.ts](mdc:frontend/src/lib/api.ts) で管理します。
+- グローバルな状態管理やProviderは [providers/QueryProvider.tsx](mdc:frontend/src/providers/QueryProvider.tsx) で設定します。
+- 共通コンポーネントは `frontend/src/components/` に配置します。
+  - 例: PDFビューアは [components/PdfViewer.tsx](mdc:frontend/src/components/PdfViewer.tsx)
+- ページごとのUIは `frontend/src/pages/` に配置し、Next.jsのルーティングに従います。
+
+## API連携
+- APIのベースURLは環境変数 `NEXT_PUBLIC_API_URL` で切り替え可能です。
+- 認証トークンはローカルストレージで管理し、axiosのインターセプターで自動付与します。
+- 401エラー時は自動的にログアウト・リダイレクト処理を行います。
+
+## コーディング規約
+- TypeScriptを推奨し、型安全な実装を心がけます。
+- コンポーネントは関数コンポーネント（FC）で記述します。
+- hooksやカスタムhooksは `frontend/src/hooks/` にまとめます（必要に応じて）。
+- スタイルはCSS Modulesやstyled-components等、プロジェクト方針に従って管理します。
+
+## テスト
+- ユニットテスト・E2Eテストは `frontend/__tests__/` などに配置します。
+- テストフレームワークはJestやTesting Libraryを利用します（導入時）。
+
+## 注意事項
+- API仕様や認証フローの変更時は `lib/api.ts` の修正を忘れずに。
+- サーバーサイドレンダリング（SSR）や静的生成（SSG）が必要な場合は、Next.jsの公式ドキュメントに従って実装します。
