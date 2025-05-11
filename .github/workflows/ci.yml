@@ -11,8 +11,8 @@ on:
     paths-ignore:
       - 'README.md'
       - 'docs/**'
-  schedule:
-    - cron: '0 0 * * 0' # 毎週日曜日に実行
+  # schedule:
+  #   - cron: '0 0 * * 0' # 毎週日曜日に実行
   workflow_dispatch: # 手動実行を許可
 
 env:
